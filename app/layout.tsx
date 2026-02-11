@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${cormorant.variable} antialiased`}>
-        <Opening oncePerSession={true} durationMs={1600}>
+        <Opening oncePerSession={true} durationMs={4200}>
           <SiteHeader />
           {children}
         </Opening>

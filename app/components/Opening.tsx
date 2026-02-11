@@ -5,9 +5,15 @@ import { useEffect, useState } from "react";
 type Props = {
   children: React.ReactNode;
   oncePerSession?: boolean;
+  /** オープニング全体の時間(ms) */
+  durationMs?: number;
 };
 
-export default function Opening({ children, oncePerSession = true }: Props) {
+export default function Opening({
+  children,
+  oncePerSession = true,
+  durationMs = 4200,
+}: Props) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -20,15 +26,13 @@ export default function Opening({ children, oncePerSession = true }: Props) {
       sessionStorage.setItem("aihashi_opening_seen", "1");
     }
 
-    // フェードイン→表示→フェードアウト（合計4.2秒）
-    const total = 4200;
-    const t = window.setTimeout(() => setShow(false), total);
+    const t = window.setTimeout(() => setShow(false), durationMs);
     return () => window.clearTimeout(t);
-  }, [oncePerSession]);
+  }, [oncePerSession, durationMs]);
 
   return (
     <>
-      {/* 本体 */}
+      {/* サイト本体 */}
       <div
         style={{
           opacity: show ? 0 : 1,
@@ -39,10 +43,10 @@ export default function Opening({ children, oncePerSession = true }: Props) {
         {children}
       </div>
 
+      {/* オープニング */}
       {show && (
-        <div className="aihashi-opening">
+        <div className="aihashi-opening" aria-hidden="true">
           <div className="aihashi-opening__center">
-            {/* ロゴ（大きく） */}
             <img
               src="/aihashi-logo-text.png"
               alt="AIHASHI"
@@ -57,39 +61,37 @@ export default function Opening({ children, oncePerSession = true }: Props) {
               z-index: 9999;
               display: grid;
               place-items: center;
-              background: #F7F5F1; /* ← サイトと完全一致 */
-              animation: overlayAnim 4200ms ease forwards;
+              background: #F7F5F1; /* サイトの白に合わせる */
+              animation: overlayAnim ${durationMs}ms ease forwards;
             }
 
             .aihashi-opening__center{
               opacity: 0;
               transform: translateY(12px);
               filter: blur(10px);
-              animation: logoAnim 4200ms ease forwards;
+              animation: logoAnim ${durationMs}ms ease forwards;
             }
 
-            /* 🔥 サイズ大幅アップ */
             .aihashi-opening__logo{
-              height: 120px; /* ← ここでサイズ調整 */
+              height: 120px; /* ロゴ大きめ */
               width: auto;
               object-fit: contain;
-
-              /* ロゴ画像の白背景を消すトリック */
               mix-blend-mode: multiply;
+              filter: drop-shadow(0 18px 35px rgba(0,0,0,0.08));
             }
 
-            /* ===== Animation timeline ===== */
+            /* フェードイン長め / 滞在 / フェードアウト長め */
             @keyframes overlayAnim{
               0%   { opacity: 0; }
-              25%  { opacity: 1; }
+              30%  { opacity: 1; }
               70%  { opacity: 1; }
               100% { opacity: 0; pointer-events: none; }
             }
 
             @keyframes logoAnim{
               0%   { opacity: 0; transform: translateY(16px); filter: blur(14px); }
-              25%  { opacity: 1; transform: translateY(0); filter: blur(0); }
-              70%  { opacity: 1; }
+              30%  { opacity: 1; transform: translateY(0);  filter: blur(0); }
+              70%  { opacity: 1; transform: translateY(0);  filter: blur(0); }
               100% { opacity: 0; transform: translateY(-6px); filter: blur(10px); }
             }
 
