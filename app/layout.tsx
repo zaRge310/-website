@@ -1,45 +1,40 @@
+import type { Metadata } from "next";
 import "./globals.css";
-import type { Metadata, Viewport } from "next";
 import Opening from "./components/Opening";
 import SiteHeader from "./components/SiteHeader";
 
-// すでにフォント設定してる場合は、あなたの既存コード（cormorant等）を残してOK。
-// ここでは「SEO設定の完全版」に集中しています。
+const SITE_NAME = "AIHASHI株式会社";
+const SITE_URL = "https://website-three-chi-67.vercel.app"; // 独自ドメインにしたら差し替え
+const DEFAULT_TITLE = "AIHASHI株式会社 | 不動産リフォーム・再生事業";
+const DEFAULT_DESC =
+  "AIHASHI株式会社は東京都新宿区を拠点に、不動産リフォーム・再生事業を中心に価値創造を行っています。物件募集も受け付けています。";
+
+// ▼▼ ここに Search Console の verification 値を入れる ▼▼
+const <meta name="google-site-verification" content="aw1-OdXCjPWpJjWFg0uYHjRZHg71z3pCCkyuanft4W8" />
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.aihashi.co.jp"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "AIHASHI株式会社｜リフォーム不動産の販売・物件提案募集",
-    template: "%s｜AIHASHI株式会社",
+    default: DEFAULT_TITLE,
+    template: "%s | AIHASHI株式会社",
   },
-  description:
-    "AIHASHI株式会社は、リフォーム済み不動産の販売と、リフォーム・再生に適した物件情報の募集（ご提案）を行っています。区分マンション・戸建て・空き家など、お気軽にご相談ください。",
+  description: DEFAULT_DESC,
+  applicationName: SITE_NAME,
+  keywords: [
+    "AIHASHI",
+    "アイハシ株式会社",
+    "不動産",
+    "リフォーム",
+    "リノベーション",
+    "不動産再生",
+    "物件募集",
+    "中古住宅",
+    "空き家",
+    "新宿",
+    "東京",
+  ],
   alternates: {
     canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    url: "https://www.aihashi.co.jp",
-    siteName: "AIHASHI株式会社",
-    title: "AIHASHI株式会社｜リフォーム不動産の販売・物件提案募集",
-    description:
-      "リフォーム済み不動産の販売と、リフォーム・再生に適した物件情報の募集（ご提案）を行っています。",
-    locale: "ja_JP",
-    images: [
-      {
-        url: "/ogp.png", // あとで作るなら public/ogp.png を置く
-        width: 1200,
-        height: 630,
-        alt: "AIHASHI株式会社",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "AIHASHI株式会社｜リフォーム不動産の販売・物件提案募集",
-    description:
-      "リフォーム済み不動産の販売と、リフォーム・再生に適した物件情報の募集（ご提案）を行っています。",
-    images: ["/ogp.png"],
   },
   robots: {
     index: true,
@@ -52,33 +47,67 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.png", type: "image/png" }, // optional
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESC,
+    siteName: SITE_NAME,
+    locale: "ja_JP",
+    images: [
+      {
+        url: "/aihashi-logo-mark.png",
+        width: 512,
+        height: 512,
+        alt: "AIHASHI",
+      },
     ],
-    apple: [{ url: "/apple-touch-icon.png" }], // optional
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESC,
+    images: ["/aihashi-logo-mark.png"],
+  },
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
   },
 
-  // 未設定なら後回しでOK
-  // verification: {
-  //   google: "xxxxx",
-  // },
-};
-
-export const viewport: Viewport = {
-  themeColor: "#F7F5F1",
+  // ✅ Search Console 最短確認（HTMLタグ方式）
+  verification: {
+    google: GOOGLE_VERIFICATION,
+  },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/aihashi-logo-mark.png`,
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "JP",
+      addressRegion: "東京都",
+      addressLocality: "新宿区",
+      streetAddress: "新宿二丁目１２－１３",
+    },
+  };
+
   return (
     <html lang="ja">
       <body className="antialiased">
-        <Opening oncePerSession={true} durationMs={4200}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Opening oncePerSession={true}>
           <SiteHeader />
           {children}
         </Opening>

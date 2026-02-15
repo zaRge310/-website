@@ -12,20 +12,21 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left */}
             <div>
-              <div className="flex items-center gap-4 mb-10">
-                <img
-                  src="/aihashi-logo-mark.png"
-                  alt="AIHASHI ロゴマーク"
-                  className="w-11 h-11 md:w-12 md:h-12"
-                />
-                <img
-                  src="/aihashi-logo-text.png"
-                  alt="AIHASHI"
-                  className="h-10 md:h-11 w-auto"
-                />
+              {/* ヘッダーは赤ロゴのみになったので、ここはブランド表示を最小化 */}
+              <div className="flex items-center gap-3 mb-10">
+                <span className="grid place-items-center w-11 h-11 rounded-xl bg-white/70 border border-black/10 shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
+                  <img
+                    src="/aihashi-logo-mark.png"
+                    alt="AIHASHI"
+                    className="w-7 h-7"
+                  />
+                </span>
+                <p className="text-xs tracking-[0.22em] text-[#141414]/60">
+                  AIHASHI
+                </p>
               </div>
 
-              <p className="text-xs tracking-[0.22em] text-[#141414]/70 mb-4">
+              <p className="text-xs tracking-[0.22em] text-[#141414]/60 mb-4">
                 REFORMED REAL ESTATE / PROPERTY SOURCING
               </p>
 
@@ -75,30 +76,51 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Visual */}
+            {/* Right Visual: ロゴを“見える高級感”へ */}
             <div className="hidden md:block">
               <div className="relative">
                 <div className="relative aspect-[4/3] rounded-[28px] bg-white/60 border border-black/10 shadow-[0_24px_80px_rgba(0,0,0,0.10)] overflow-hidden">
-                  <div
-                    className="absolute inset-0 bg-center bg-no-repeat"
-                    style={{
-                      backgroundImage: "url(/aihashi-logo-text.png)",
-                      backgroundSize: "92%",
-                      opacity: 0.06,
-                      transform: "rotate(-7deg) scale(1.06)",
-                    }}
-                    aria-hidden="true"
-                  />
+                  {/* 立体感：うっすら内側ハイライト */}
                   <div
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(135deg, rgba(255,255,255,0.75), rgba(255,255,255,0.25), rgba(0,0,0,0.00))",
+                        "radial-gradient(1200px 500px at 30% 20%, rgba(255,255,255,0.85), rgba(255,255,255,0.20), rgba(255,255,255,0))",
+                    }}
+                    aria-hidden="true"
+                  />
+
+                  {/* 背景ロゴ：opacityだけでなく mask + blur で上品に“読める” */}
+                  <div
+                    className="absolute inset-0 bg-center bg-no-repeat"
+                    style={{
+                      backgroundImage: "url(/aihashi-logo-text.png)",
+                      backgroundSize: "96%",
+                      opacity: 0.22,
+                      filter: "blur(0.2px)",
+                      transform: "rotate(-7deg) scale(1.08)",
+                      // 上側を少し強く、下に行くほど薄く
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.45), rgba(0,0,0,0.18))",
+                      maskImage:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.45), rgba(0,0,0,0.18))",
+                    }}
+                    aria-hidden="true"
+                  />
+
+                  {/* 仕上げ：薄いグレイン風（上品） */}
+                  <div
+                    className="absolute inset-0 opacity-[0.06]"
+                    style={{
+                      backgroundImage:
+                        "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.35) 1px, transparent 0)",
+                      backgroundSize: "12px 12px",
                     }}
                     aria-hidden="true"
                   />
                 </div>
 
+                {/* luxury accent circles */}
                 <div className="pointer-events-none absolute -top-10 -right-10 w-56 h-56 rounded-full bg-black/5" />
                 <div className="pointer-events-none absolute -bottom-8 -left-8 w-40 h-40 rounded-full bg-black/4" />
               </div>
@@ -107,7 +129,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ 選ばれる理由（新設：ヘッダー #reason の飛び先） */}
+      {/* 選ばれる理由 */}
       <section id="reason" className="py-20 scroll-mt-28">
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-xs tracking-[0.22em] text-[#141414]/60 mb-3">
@@ -138,17 +160,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ 事業内容（idを追加：ヘッダー #services の飛び先） */}
+      {/* 事業内容 */}
       <section id="services" className="py-20 scroll-mt-28">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-end justify-between gap-6 mb-10">
-            <div>
-              <p className="text-xs tracking-[0.22em] text-[#141414]/60 mb-3">
-                SERVICES
-              </p>
-              <h2 className="text-3xl font-semibold">事業内容</h2>
-            </div>
-          </div>
+          <p className="text-xs tracking-[0.22em] text-[#141414]/60 mb-3">
+            SERVICES
+          </p>
+          <h2 className="text-3xl font-semibold mb-10">事業内容</h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-10 bg-white/60 border border-black/10 rounded-2xl shadow-[0_18px_50px_rgba(0,0,0,0.06)]">
@@ -172,20 +190,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ 施工・販売例（idを works に：ヘッダー #works の飛び先） */}
+      {/* 施工・販売例 */}
       <section
         id="works"
         className="py-20 bg-white/35 border-y border-black/5 scroll-mt-28"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-end justify-between gap-6 mb-10">
-            <div>
-              <p className="text-xs tracking-[0.22em] text-[#141414]/60 mb-3">
-                WORKS
-              </p>
-              <h2 className="text-3xl font-semibold">施工・販売例（例）</h2>
-            </div>
-          </div>
+          <p className="text-xs tracking-[0.22em] text-[#141414]/60 mb-3">
+            WORKS
+          </p>
+          <h2 className="text-3xl font-semibold mb-10">施工・販売例（例）</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
