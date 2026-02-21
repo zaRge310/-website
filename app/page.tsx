@@ -191,6 +191,7 @@ export default function Home() {
                 className={`glass-panel rounded-[2rem] overflow-hidden group reveal reveal-delay-${(i % 2) + 1} bg-white/70`}
               >
                 <div className="aspect-[16/10] bg-[#F0EEEA] relative overflow-hidden">
+                  <Link href={`/properties/${p.slug}`} className="absolute inset-0 z-20" aria-label={`View details for ${p.title}`} />
                   {p.thumb ? (
                     <img
                       src={p.thumb}
@@ -217,7 +218,9 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <h3 className="text-2xl font-serif text-[#111] group-hover:text-[#C29B57] transition-colors">{p.title}</h3>
+                  <Link href={`/properties/${p.slug}`} className="inline-block relative z-20">
+                    <h3 className="text-2xl font-serif text-[#111] group-hover:text-[#C29B57] transition-colors">{p.title}</h3>
+                  </Link>
                   {p.catch ? (
                     <p className="mt-3 text-sm text-[#141414]/60 font-normal font-sans leading-relaxed">{p.catch}</p>
                   ) : null}
