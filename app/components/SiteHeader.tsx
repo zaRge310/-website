@@ -77,6 +77,9 @@ export default function SiteHeader() {
           <a href="/other" className="hover:text-black transition-colors">
             その他業務
           </a>
+          <a href="/contact" className="hover:text-black transition-colors">
+            お問い合わせ
+          </a>
         </nav>
 
         {/* Mobile */}
@@ -121,6 +124,9 @@ export default function SiteHeader() {
             </a>
             <a href="/other" className="py-2 rounded-lg hover:bg-black/5 px-3" onClick={closeMenu}>
               その他業務
+            </a>
+            <a href="/contact" className="py-2 rounded-lg hover:bg-black/5 px-3" onClick={closeMenu}>
+              お問い合わせ
             </a>
           </div>
         </div>

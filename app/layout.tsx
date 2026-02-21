@@ -1,121 +1,130 @@
 import type { Metadata } from "next";
+import { Noto_Sans_JP, Noto_Serif_JP, Inter } from "next/font/google";
 import "./globals.css";
-import Opening from "./components/Opening";
-import SiteHeader from "./components/SiteHeader";
+import Opening from "@/app/components/Opening";
+import SiteHeader from "@/app/components/SiteHeader";
+import ScrollReveal from "@/app/components/ScrollReveal";
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-noto-sans-jp",
+  display: "swap",
+});
+
+const notoSerifJP = Noto_Serif_JP({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-noto-serif-jp",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const SITE_NAME = "AIHASHI株式会社";
-const SITE_URL = "https://website-three-chi-67.vercel.app"; // 独自ドメインにしたら差し替え
-const DEFAULT_TITLE = "AIHASHI株式会社 | 不動産リフォーム・再生事業";
-const DEFAULT_DESC =
-  "AIHASHI株式会社は東京都新宿区を拠点に、不動産リフォーム・再生事業を中心に価値創造を行っています。物件募集も受け付けています。";
-
-const GOOGLE_VERIFICATION = "aw1-OdXCjPWpJjWFg0uYHjRZHg71z3pCCkyuanft4W8";
+const SITE_URL = "https://aihashi.co.jp";
+const DESCRIPTION =
+  "AIHASHI株式会社は不動産再生・リフォーム・物件活用を中心に事業を展開。空き家・再販物件の買取相談を受付中。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-
   title: {
-    default: DEFAULT_TITLE,
-    template: "%s | AIHASHI株式会社",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-
-  description: DEFAULT_DESC,
-
+  description: DESCRIPTION,
   applicationName: SITE_NAME,
-
   keywords: [
     "AIHASHI",
     "アイハシ株式会社",
     "不動産",
     "リフォーム",
-    "リノベーション",
     "不動産再生",
-    "物件募集",
-    "中古住宅",
-    "空き家",
-    "新宿",
-    "東京",
+    "物件買取",
+    "空き家活用",
+    "不動産投資",
   ],
-
-  alternates: {
-    canonical: "/",
-  },
-
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
+      "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
-      "max-video-preview": -1,
     },
   },
-
   openGraph: {
     type: "website",
-    url: SITE_URL,
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESC,
-    siteName: SITE_NAME,
     locale: "ja_JP",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: DESCRIPTION,
     images: [
       {
         url: "/aihashi-logo-mark.png",
-        width: 512,
-        height: 512,
+        width: 1200,
+        height: 630,
         alt: "AIHASHI",
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESC,
+    title: SITE_NAME,
+    description: DESCRIPTION,
     images: ["/aihashi-logo-mark.png"],
   },
-
   icons: {
     icon: "/icon.png",
+    shortcut: "/icon.png",
     apple: "/icon.png",
   },
-
-  // ✅ Search Console 用（metaタグをJSXで書かずにここで指定）
+  alternates: {
+    canonical: SITE_URL,
+  },
   verification: {
-    google: GOOGLE_VERIFICATION,
+    google: "ここにgoogle-site-verificationコードだけ入れる",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const jsonLd = {
+}) {
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: SITE_NAME,
+    "@type": "RealEstateAgent",
+    name: "AIHASHI株式会社",
     url: SITE_URL,
     logo: `${SITE_URL}/aihashi-logo-mark.png`,
+    description:
+      "不動産再生・リフォーム・物件活用を中心に事業展開するAIHASHI株式会社。",
     address: {
       "@type": "PostalAddress",
       addressCountry: "JP",
-      addressRegion: "東京都",
-      addressLocality: "新宿区",
-      streetAddress: "新宿二丁目１２－１３",
     },
   };
 
   return (
-    <html lang="ja">
-      <body className="antialiased">
+    <html lang="ja" className={`${notoSansJP.variable} ${notoSerifJP.variable} ${inter.variable}`}>
+      <body className="antialiased font-sans bg-[#FCFBF9] text-[#141414] selection:bg-[#C29B57]/20 selection:text-[#111]">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
         />
-        <Opening oncePerSession={true}>
+
+        <Opening durationMs={3500}>
+          <ScrollReveal />
           <SiteHeader />
           {children}
         </Opening>
