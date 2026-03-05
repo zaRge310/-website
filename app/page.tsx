@@ -39,6 +39,11 @@ export default function Home() {
               </p>
             </div>
 
+            {/* TODO: この文言はいずれ削除します */}
+            <div className="mb-8 inline-block px-6 py-3 rounded-full bg-[#111] text-white text-sm md:text-base font-bold tracking-widest shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+              この会社は不動産会社ではありません。
+            </div>
+
             <p className="text-xs tracking-[0.3em] text-[#C29B57] mb-6 uppercase font-sans">
               Reformed Real Estate / Property Sourcing
             </p>
